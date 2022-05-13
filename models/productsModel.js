@@ -1,11 +1,11 @@
 const connection = require('./connection');
 
 const getAll = async () => {
-  const query = 'SELECT * FROM producs';
+  const query = 'SELECT * FROM products';
 
-  const [product] = await connection.execute(query);
+  const [products] = await connection.execute(query);
 
-  return product;
+  return products;
 };
 
 module.exports = {
