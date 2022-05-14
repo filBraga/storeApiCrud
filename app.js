@@ -1,20 +1,17 @@
 const express = require('express');
-
-const productsController = require('./controllers/productsController');
+const bodyParser = require('body-parser');
+const router = require('./routes/router');
 
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json());
 
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
-app.get('/products', productsController.getAll);
-app.post('/products', (req, res) => {
-  res.send('hello world');
-});
-// app.use('/sales', salesRoute);
+app.use(express.json()); // same as body-parse
+app.use(router);
 
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima

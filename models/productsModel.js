@@ -9,7 +9,7 @@ const getAll = async () => {
 const getProductByName = async (name) => {
   const query = 'select * from products where name = ?';
   const [product] = await connection.execute(query, [name]);
-  return product;
+  return product[0];
 };
 
 const create = async (name, quantity) => {
