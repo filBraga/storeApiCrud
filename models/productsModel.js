@@ -12,6 +12,12 @@ const getProductByName = async (name) => {
   return product[0];
 };
 
+const getProductById = async (id) => {
+  const query = 'select * from products where id = ?';
+  const [product] = await connection.execute(query, [id]);
+  return product[0];
+};
+
 const create = async (name, quantity) => {
   const query = 'INSERT INTO products (name, quantity) VALUES (?, ?)';
 
@@ -27,8 +33,17 @@ const create = async (name, quantity) => {
   return user;
 };
 
+const edit = async (id, name, quantity) => {
+  const query = 'update products set name = ?, quantity = ? where id = ?';
+  await connection.execute(query, [name, quantity, id]);
+  const product = { id, name, quantity };
+  return product;
+};
+
 module.exports = {
   getAll,
   getProductByName,
+  getProductById,
   create,
+  edit,
 };

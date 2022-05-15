@@ -18,7 +18,16 @@ const create = async (name, quantity) => {
   return createdProduct;
 };
 
+const edit = async (id, name, quantity) => {
+  const verifyProduct = await productsModel.getProductById(id);
+  if (verifyProduct === undefined) throw errorHandler(404, 'Product not found');
+
+  const product = await productsModel.edit(id, name, quantity);
+  return product;
+};
+
 module.exports = {
   getAll,
   create,
+  edit,
 };
