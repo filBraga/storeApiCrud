@@ -26,8 +26,17 @@ const edit = async (id, name, quantity) => {
   return product;
 };
 
+const deleteProduct = async (id) => {
+  const verifyProduct = await productsModel.getProductById(id);
+  if (verifyProduct === undefined) throw errorHandler(404, 'Product not found');
+
+  await productsModel.deleteProduct(id);
+  // return product;
+};
+
 module.exports = {
   getAll,
   create,
   edit,
+  deleteProduct,
 };

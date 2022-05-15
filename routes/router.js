@@ -8,6 +8,7 @@ const router = express.Router();
 router.get('/products', productsController.getAll);
 router.post('/products', productsController.create);
 router.put('/products/:id', productsController.edit);
+router.delete('/products/:id', productsController.deleteProduct);
 
 // sales
 

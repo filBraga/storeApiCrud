@@ -23,11 +23,22 @@ const edit = async (req, res) => {
     return res.status(200).json(product);
   } catch (error) {
   return res.status(404).json({ message: 'Product not found' });
-}
+  }
+};
+
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await productServices.deleteProduct(id);
+    return res.status(204).send();
+  } catch (error) {
+  return res.status(404).json({ message: 'Product not found' });
+  }
 };
 
 module.exports = {
   getAll,
   create,
   edit,
+  deleteProduct,
 };
