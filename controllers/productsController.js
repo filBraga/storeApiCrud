@@ -11,7 +11,7 @@ const create = async (req, res) => {
     const product = await productServices.create(name, quantity);
     return res.status(201).json(product);
   } catch (error) {
-    return res.status(409).json({ message: 'Product already exists' });
+    return res.status(error.status).json({ message: error.message });
   }
 };
 
@@ -22,7 +22,7 @@ const edit = async (req, res) => {
     const product = await productServices.edit(id, name, quantity);
     return res.status(200).json(product);
   } catch (error) {
-  return res.status(404).json({ message: 'Product not found' });
+    return res.status(error.status).json({ message: error.message });
   }
 };
 

@@ -10,6 +10,18 @@ const create = async (req, res) => {
   // }
 };
 
+const edit = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [{ productId, quantity }] = req.body;
+    const sale = await saleServices.edit(id, quantity, productId);
+    return res.status(200).json(sale);
+  } catch (error) {
+    return res.status(error.status).json({ message: error.message });
+  }
+};
+
 module.exports = {
   create,
+  edit,
 };
