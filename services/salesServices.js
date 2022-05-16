@@ -9,8 +9,13 @@ const create = async (productId, quantity) => {
   // const verifySale = await salesModel.getSaleById(name);
   // if (verifySale) throw errorHandler(409, 'Sale already exists');
   const insertId = await salesModel.createSales();
-  const createdSale = await salesModel.createSalesProducts(insertId, productId, quantity);
-  return createdSale;
+  await salesModel.createSalesProducts(insertId, productId, quantity);
+    
+  const objCreated = {
+    id: insertId, 
+    itemsSold: [{ productId, quantity }], 
+  };
+  return objCreated;
 };
 
 module.exports = {

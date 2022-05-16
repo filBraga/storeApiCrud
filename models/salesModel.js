@@ -9,9 +9,9 @@ const createSales = async () => {
 const createSalesProducts = async (id, productId, quantity) => {  
   const querySalesProduct = 'INSERT INTO sales_products (sale_id, product_id, quantity)' 
     + 'VALUES (?, ?, ?)';
-  await connection.execute(querySalesProduct, [id, productId, quantity]);
-
-  return true;
+  const sale = await connection.execute(querySalesProduct, [id, productId, quantity]);
+  console.log(` this is sale ${sale}`);
+  return sale;
 };
 
 module.exports = {
