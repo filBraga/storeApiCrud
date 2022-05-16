@@ -1,4 +1,5 @@
 const productServices = require('../services/productsServices');
+// const productsModel = require('../services/productsModel');
 
 const getAll = async (req, res) => {
   const product = await productServices.getAll();
@@ -36,6 +37,10 @@ const deleteProduct = async (req, res) => {
     return res.status(error.status).json({ message: error.message });
   }
 };
+
+// const productsModel = async (req, res) => {
+//   if (verifyProduct === undefined) throw errorHandler(404, 'Product not found');
+// };
 
 module.exports = {
   getAll,
