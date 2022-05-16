@@ -5,17 +5,18 @@ const salesModel = require('../models/salesModel');
 //   message,
 // });
 
-const create = async (productId, quantity) => {
-  // const verifySale = await salesModel.getSaleById(name);
-  // if (verifySale) throw errorHandler(409, 'Sale already exists');
+const create = async (reqBodyArray) => {
   const insertId = await salesModel.createSales();
-  await salesModel.createSalesProducts(insertId, productId, quantity);
+
+  await (reqBodyArray.forEach((element) => {
+    const { productId, quantity } = element;
+    salesModel.createSalesProducts(insertId, productId, quantity);
+  }));
     
-  const objCreated = {
+  return {
     id: insertId, 
-    itemsSold: [{ productId, quantity }], 
+    itemsSold: reqBodyArray, 
   };
-  return objCreated;
 };
 
 module.exports = {

@@ -10,7 +10,6 @@ const createSalesProducts = async (id, productId, quantity) => {
   const querySalesProduct = 'INSERT INTO sales_products (sale_id, product_id, quantity)' 
     + 'VALUES (?, ?, ?)';
   const sale = await connection.execute(querySalesProduct, [id, productId, quantity]);
-  console.log(` this is sale ${sale}`);
   return sale;
 };
 
