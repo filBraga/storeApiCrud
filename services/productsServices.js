@@ -28,7 +28,10 @@ const edit = async (id, name, quantity) => {
 
 const deleteProduct = async (id) => {
   const verifyProduct = await productsModel.getProductById(id);
-  if (verifyProduct === undefined) throw errorHandler(404, 'Product not found');
+  console.log(`esse é o verify: ${verifyProduct}`);
+  if (verifyProduct === undefined) {
+    throw errorHandler(404, 'Product not found');
+  }
 
   await productsModel.deleteProduct(id);
   // return product;

@@ -32,7 +32,8 @@ const deleteProduct = async (req, res) => {
     await productServices.deleteProduct(id);
     return res.status(204).send();
   } catch (error) {
-  return res.status(404).json({ message: 'Product not found' });
+    console.log(error);
+    return res.status(error.status).json({ message: error.message });
   }
 };
 

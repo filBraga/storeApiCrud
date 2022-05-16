@@ -15,6 +15,8 @@ const getProductByName = async (name) => {
 const getProductById = async (id) => {
   const query = 'select * from products where id = ?';
   const [product] = await connection.execute(query, [id]);
+  console.log(`esse é o product: ${product}`);
+
   return product[0];
 };
 
@@ -24,13 +26,13 @@ const create = async (name, quantity) => {
   // [{insertId: 2332}]
   const [registeredId] = await connection.execute(query, [name, quantity]);
 
-  const user = {
+  const product = {
     id: registeredId.insertId,
     name,
     quantity,
   };
 
-  return user;
+  return product;
 };
 
 const edit = async (id, name, quantity) => {
