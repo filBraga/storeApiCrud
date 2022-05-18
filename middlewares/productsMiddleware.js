@@ -7,9 +7,6 @@ const PRODUCT = Joi.object({
 
 const validateProduct = (req, res, next) => {
   const { error } = PRODUCT.validate(req.body);
-
-  console.log((error));
-
   const { type } = error.details[0];
 
   if (error) {

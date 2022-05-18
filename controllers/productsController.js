@@ -6,6 +6,16 @@ const getAll = async (req, res) => {
   return res.status(200).json(product);
 };
 
+const getSingle = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await productServices.getSingle(id);
+    return res.status(200).json(product);
+  } catch (error) {
+    return res.status(error.status).json({ message: error.message });
+  }
+};
+
 const create = async (req, res) => {
   try {
     const { name, quantity } = req.body;
@@ -33,7 +43,6 @@ const deleteProduct = async (req, res) => {
     await productServices.deleteProduct(id);
     return res.status(204).send();
   } catch (error) {
-    console.log(error);
     return res.status(error.status).json({ message: error.message });
   }
 };
@@ -44,6 +53,7 @@ const deleteProduct = async (req, res) => {
 
 module.exports = {
   getAll,
+  getSingle,
   create,
   edit,
   deleteProduct,

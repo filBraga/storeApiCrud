@@ -5,6 +5,19 @@ const errorHandler = (status, message) => ({
   message,
 });
 
+const getAll = async () => {
+  const sales = await salesModel.getAll();
+  return sales;
+};
+
+const getSingle = async (id) => {
+  const verifySale = await salesModel.getSaleById(id);
+  if (verifySale === undefined) throw errorHandler(404, 'Sale not found');
+
+  const sale = await salesModel.getSaleById(id);
+  return sale;
+};
+
 const create = async (reqBodyArray) => {
   const insertId = await salesModel.createSales();
 
@@ -25,31 +38,31 @@ const edit = async (id, bodyArray) => {
 
   const arrItemUpdated = [];
 
-  console.log(`this is bodyarr ${JSON.stringify(bodyArray)}`);
-
-  bodyArray.map((element) => {
-    console.log(`this is element ${JSON.stringify(element)}`);
+  await (bodyArray.map((element) => {
     arrItemUpdated.push(element);
     salesModel.editSale(element.quantity, element.productId);
     return true;
-  });
-  console.log(`this is arrItemUpdated ${JSON.stringify(arrItemUpdated)}`);
+  }));
 
   const returnedObj = {
     saleId: id,
     itemUpdated: arrItemUpdated,
   };
-  console.log(`this is returnedObj ${JSON.stringify(returnedObj)}`);
 
   return returnedObj;
 };
 
 const getSaleProductsById = async (id) => {
-  const products = await salesModel.getSaleProductsById(id);
-  return products;
+  const verifySale = await salesModel.getSaleById(id);
+  if (verifySale === undefined) throw errorHandler(404, 'Sale not found');
+
+  const sale = await salesModel.getSaleProductsById(id);
+  return sale;
 };
 
 module.exports = {
+  getAll,
+  getSingle,
   create,
   edit,
   getSaleProductsById,

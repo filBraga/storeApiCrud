@@ -10,6 +10,14 @@ const getAll = async () => {
   return products;
 };
 
+const getSingle = async (id) => {
+  const verifyProduct = await productsModel.getProductById(id);
+  if (verifyProduct === undefined) throw errorHandler(404, 'Product not found');
+
+  const products = await productsModel.getProductById(id);
+  return products;
+};
+
 const create = async (name, quantity) => {
   const verifyProduct = await productsModel.getProductByName(name);
   if (verifyProduct) throw errorHandler(409, 'Product already exists');
@@ -37,6 +45,7 @@ const deleteProduct = async (id) => {
 
 module.exports = {
   getAll,
+  getSingle,
   create,
   edit,
   deleteProduct,

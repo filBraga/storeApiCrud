@@ -6,6 +6,12 @@ const getAll = async () => {
   return products;
 };
 
+// const getSingle = async () => {
+//   const query = 'SELECT * FROM products where id id = ?';
+//   const [products] = await connection.execute(query);
+//   return products;
+// };
+
 const getProductByName = async (name) => {
   const query = 'select * from products where name = ?';
   const [product] = await connection.execute(query, [name]);
