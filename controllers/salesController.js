@@ -15,6 +15,7 @@ const edit = async (req, res) => {
     const { id } = req.params;
     const [{ productId, quantity }] = req.body;
     const sale = await saleServices.edit(id, quantity, productId);
+    console.log(sale);
     return res.status(200).json(sale);
   } catch (error) {
     return res.status(error.status).json({ message: error.message });

@@ -15,7 +15,6 @@ const getProductByName = async (name) => {
 const getProductById = async (id) => {
   const query = 'select * from products where id = ?';
   const [product] = await connection.execute(query, [id]);
-  console.log(`esse é o product: ${product}`);
 
   return product[0];
 };
