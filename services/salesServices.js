@@ -30,7 +30,13 @@ const edit = async (id, quantity, productId) => {
   };
 };
 
+const getSaleProductsById = async (id) => {
+  const products = await salesModel.getSaleProductsById(id);
+  return products;
+};
+
 module.exports = {
   create,
   edit,
+  getSaleProductsById,
 };

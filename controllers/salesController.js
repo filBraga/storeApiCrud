@@ -21,7 +21,14 @@ const edit = async (req, res) => {
   }
 };
 
+const getSaleProductsById = async (req, res) => {
+  const { id } = req.params;
+  const product = await saleServices.getSaleProductsById(id);
+  return res.status(200).json(product);
+};
+
 module.exports = {
   create,
   edit,
+  getSaleProductsById,
 };

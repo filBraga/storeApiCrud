@@ -16,6 +16,7 @@ router.delete('/products/:id', productsController.deleteProduct);
 // router.get('/sales', salesController.getAll);
 router.post('/sales', salesController.create);
 router.put('/sales/:id', salesController.edit);
+router.get('/sales/:id', salesController.getSaleProductsById);
 // router.delete('/sales/:id', salesController.deleteSale);
 
 module.exports = router;
