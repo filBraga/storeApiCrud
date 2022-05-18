@@ -18,7 +18,6 @@ const getAll = async () => {
   WHERE sa.id = sa_pro.sale_id
   ORDER BY saleId, productId;`;
   const [sales] = await connection.execute(query);
-  console.log(sales);
   return sales;
 };
 

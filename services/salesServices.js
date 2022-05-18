@@ -54,7 +54,7 @@ const edit = async (id, bodyArray) => {
 
 const getSaleProductsById = async (id) => {
   const verifySale = await salesModel.getSaleById(id);
-  if (verifySale === undefined) throw errorHandler(404, 'Sale not found');
+  if (verifySale.length < 1) throw errorHandler(404, 'Sale not found');
 
   const sale = await salesModel.getSaleProductsById(id);
   return sale;
