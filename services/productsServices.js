@@ -13,7 +13,6 @@ const getAll = async () => {
 const create = async (name, quantity) => {
   const verifyProduct = await productsModel.getProductByName(name);
   if (verifyProduct) throw errorHandler(409, 'Product already exists');
-
   const createdProduct = await productsModel.create(name, quantity);
   return createdProduct;
 };

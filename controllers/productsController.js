@@ -6,15 +6,13 @@ const getAll = async (req, res) => {
   return res.status(200).json(product);
 };
 
-const create = async (req, res, next) => {
-  console.log(next);
+const create = async (req, res) => {
   try {
     const { name, quantity } = req.body;
     const product = await productServices.create(name, quantity);
     return res.status(201).json(product);
   } catch (error) {
-    console.log('chegou até aquiiiii');
-    next(error);
+    return res.status(error.status).json({ message: error.message });
   }
 };
 
