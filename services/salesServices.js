@@ -1,4 +1,4 @@
-const salesModel = require('../models/salesModel');
+const salesModel = require('../models/salesModels');
 
 const errorHandler = (status, message) => ({
   status,
