@@ -1,31 +1,31 @@
 // test file
 
-const productsModel = require('../../../models/productsModel');
-const productServices = require('../../../services/productsServices');
+const salesModel = require('../../../models/productsModel');
+const salesServices = require('../../../services/productsServices');
 const { expect } = require('chai');
 
 const sinon = require('sinon')
 
-describe(' productsServices => Busca de todos os products no BD', () => {
+describe(' salesServices => Busca de todos os products no BD', () => {
   describe('quando não existe nenhum product criado', () => {
 
     before(() => {
-      sinon.stub(productsModel, 'getAll')
+      sinon.stub(salesModel, 'getAll')
         .resolves([]);
     });
 
     after(() => {
-      productsModel.getAll.restore();
+      salesModel.getAll.restore();
     });
 
     it('retorna um array', async () => {
-      const response = await productServices.getAll();
+      const response = await salesServices.getAll();
 
       expect(response).to.be.an('array');
     });
 
     it('o array está vazio', async () => {
-      const response = await productServices.getAll();
+      const response = await salesServices.getAll();
 
       expect(response).to.be.empty;
     });

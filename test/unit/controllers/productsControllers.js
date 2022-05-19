@@ -3,13 +3,13 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-const productServices = require('../../services/movieService');
-const productsController = require('../../controllers/movieController');
+const productServices = require('../../../services/productsServices');
+const productsController = require('../../../controllers/productsController');
 
 // req, res, next
 
-describe('Chamada do controller getAll', () => {
-  describe('Quando não existem filmes no banco', () => {
+describe('PruductsControllers => Chamada do controller getAll', () => {
+  describe('Quando não existem produtos no banco', () => {
     const response = {}
     const request = {}
 
@@ -37,7 +37,7 @@ describe('Chamada do controller getAll', () => {
     })
   })
 
-  describe('quando existem filmes no banco de dados', async () => {
+  describe('quando existem produtos no banco de dados', async () => {
     const response = {};
     const request = {};
 
@@ -48,7 +48,24 @@ describe('Chamada do controller getAll', () => {
         .returns();
 
       sinon.stub(productServices, 'getAll')
-        .resolves();
+        .resolves([
+          {
+            "id": 1,
+            "name": "Martelo de Thor",
+            "quantity": 10
+          },
+          {
+            
+            "id": 2,
+            "name": "Traje de encolhimento",
+            "quantity": 20
+          },
+          {
+            "id": 3,
+            "name": "Escudo do Capitão América",
+            "quantity": 30
+          }
+        ]);
     })
 
     after(() => {

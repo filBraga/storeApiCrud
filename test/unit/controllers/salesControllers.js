@@ -3,13 +3,13 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-const saleServices = require('../../services/movieService');
-const salesController = require('../../controllers/movieController');
+const saleServices = require('../../../services/salesServices');
+const salesController = require('../../../controllers/salesController');
 
 // req, res, next
 
-describe('Chamada do controller getAll', () => {
-  describe('Quando não existem filmes no banco', () => {
+describe('salesControllers => Chamada do controller getAll', () => {
+  describe('Quando não existem vendas no banco', () => {
     const response = {}
     const request = {}
 
@@ -37,7 +37,7 @@ describe('Chamada do controller getAll', () => {
     })
   })
 
-  describe('quando existem filmes no banco de dados', async () => {
+  describe('quando existem sales no banco de dados', async () => {
     const response = {};
     const request = {};
 
@@ -48,7 +48,26 @@ describe('Chamada do controller getAll', () => {
         .returns();
 
       sinon.stub(saleServices, 'getAll')
-        .resolves();
+        .resolves([
+          {
+            "saleId": 1,
+            "date": "2022-05-19T13:43:01.000Z",
+            "productId": 1,
+            "quantity": 5
+          },
+          {
+            "saleId": 1,
+            "date": "2022-05-19T13:43:01.000Z",
+            "productId": 2,
+            "quantity": 10
+          },
+          {
+            "saleId": 2,
+            "date": "2022-05-19T13:43:01.000Z",
+            "productId": 3,
+            "quantity": 15
+          }
+        ]);
     })
 
     after(() => {
