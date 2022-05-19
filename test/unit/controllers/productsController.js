@@ -3,12 +3,12 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-const saleServices = require('../../../services/salesServices');
-const salesController = require('../../../controllers/salesController');
+const productServices = require('../../../services/salesServices');
+const productsController = require('../../../controllers/productsController');
 
 // req, res, next
 
-describe('salesControllers => Chamada do controller getAll', () => {
+describe('productsControllers => Chamada do controller getAll', () => {
   describe('Quando não existem vendas no banco', () => {
     const response = {}
     const request = {}
@@ -17,21 +17,21 @@ describe('salesControllers => Chamada do controller getAll', () => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
-      sinon.stub(saleServices, 'getAll').resolves([]);
+      sinon.stub(productServices, 'getAll').resolves([]);
     })
 
     after(() => {
-      saleServices.getAll.restore();
+      productServices.getAll.restore();
     })
 
     it('é retornado o metodo "status" passando o codigo 200', async () => {
-      await salesController.getAll(request, response)
+      await productsController.getAll(request, response)
 
       expect(response.status.calledWith(200)).to.be.equal(true);
     })
 
     it('é retornado o metodo json contendo um array', async () => {
-      await salesController.getAll(request, response)
+      await productsController.getAll(request, response)
 
       expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
     })
@@ -47,7 +47,7 @@ describe('salesControllers => Chamada do controller getAll', () => {
       response.json = sinon.stub()
         .returns();
 
-      sinon.stub(saleServices, 'getAll')
+      sinon.stub(productServices, 'getAll')
         .resolves([
           {
             "saleId": 1,
@@ -71,17 +71,17 @@ describe('salesControllers => Chamada do controller getAll', () => {
     })
 
     after(() => {
-      saleServices.getAll.restore();
+      productServices.getAll.restore();
     });
 
     it('é chamado o método "status" passando o código 200', async () => {
-      await salesController.getAll(request, response);
+      await productsController.getAll(request, response);
 
       expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
     it('é chamado o método "json" passando um array', async () => {
-      await salesController.getAll(request, response);
+      await productsController.getAll(request, response);
 
       expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
     });
@@ -89,7 +89,7 @@ describe('salesControllers => Chamada do controller getAll', () => {
 
   });
 
-  describe("salesControllers => Ao chamar o controller de create", () => {
+  describe("productsControllers => Ao chamar o controller de create", () => {
     describe("quando o payload informado não é válido", async () => {
       const response = {};
       const request = {};
@@ -100,21 +100,21 @@ describe('salesControllers => Chamada do controller getAll', () => {
         response.status = sinon.stub().returns(response);
         response.send = sinon.stub().returns();
   
-        sinon.stub(saleServices, "create").resolves(false);
+        sinon.stub(productServices, "create").resolves(false);
       });
   
       after(() => {
-        saleServices.create.restore();
+        productServices.create.restore();
       });
   
       it("é chamado o status com o código 400", async () => {
-        await salesController.create(request, response);
+        await productsController.create(request, response);
   
         expect(response.status.calledWith(400)).to.be.equal(true);
       });
   
       it('é chamado o send com a mensagem "Dados inválidos"', async () => {
-        await salesController.create(request, response);
+        await productsController.create(request, response);
   
         expect(response.send.calledWith("Dados inválidos")).to.be.equal(true);
       });
@@ -142,21 +142,21 @@ describe('salesControllers => Chamada do controller getAll', () => {
         response.status = sinon.stub().returns(response);
         response.send = sinon.stub().returns();
   
-        sinon.stub(saleServices, "create").resolves(true);
+        sinon.stub(productServices, "create").resolves(true);
       });
   
       after(() => {
-        saleServices.create.restore();
+        productServices.create.restore();
       });
   
       it("é chamado o status com o código 201", async () => {
-        await salesController.create(request, response);
+        await productsController.create(request, response);
   
         expect(response.status.calledWith(201)).to.be.equal(true);
       });
   
       it('é chamado o send com a mensagem "Product criado com sucesso!"', async () => {
-        await salesController.create(request, response);
+        await productsController.create(request, response);
   
         expect(response.send.calledWith("Product criado com sucesso!")).to.be.equal(
           true

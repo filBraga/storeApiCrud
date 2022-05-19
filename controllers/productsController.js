@@ -47,10 +47,6 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-// const productsModel = async (req, res) => {
-//   if (verifyProduct === undefined) throw errorHandler(404, 'Product not found');
-// };
-
 module.exports = {
   getAll,
   getSingle,
