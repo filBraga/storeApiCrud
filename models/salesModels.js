@@ -30,6 +30,7 @@ const getDate = async (id) => {
 const createSales = async () => {
   const querySales = 'INSERT INTO sales (date) VALUES (NOW())';
   const [insertId] = await connection.execute(querySales);
+  console.log(insertId.insertId);
   return insertId.insertId;
 };
 

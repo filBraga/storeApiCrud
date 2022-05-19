@@ -6,140 +6,145 @@ const mscLayer = 'Model' //in single
 
 const service = require(`../../../services/${item}sServices`);
 const controller = require(`../../../controllers/${item}sControllers`);
+const model = require(`../../../models/${item}sModels`);
 
-const productsControllers = require(`../../../controllers/productsControllers`);
+const connection = require('../../../models/connection');
+
 
 // Get All
 describe(`${item} => ${mscLayer} => getAll`, () => {
   describe(`Negative ${item} in DB`, () => {
-    const response = {}
-    const request = {}
+    const resultExecute = [[]];
 
     before(() => {
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(service, 'getAll').resolves([]);
+      sinon.stub(connection, 'execute')
+        .resolves(resultExecute)
     })
 
     after(() => {
-      service.getAll.restore();
+      connection.execute.restore();
     })
 
-    it(`${item} => ${mscLayer} => status: 200`, async () => {
-      await controller.getAll(request, response)
-
-      expect(response.status.calledWith(200)).to.be.equal(true);
+    it(`${item} => ${mscLayer} => return arr`, async () => {
+      const result = await model.getAll();
+      expect(result).to.be.an('array');
     })
 
-    it(`${item} => ${mscLayer} => json: array`, async () => {
-      await controller.getAll(request, response)
-
-      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+    it(`${item} => ${mscLayer} => array: empty`, async () => {
+      const result = await model.getAll();
+      expect(result).to.be.empty;;
     })
   })
 
   describe(`Positive ${item} in DB`, async () => {
-    const response = {};
-    const request = {};
+    const resultExecute = {
+      "id": 3,
+      "itemsSold": [
+        {
+          "productId": 1,
+          "quantity": 2
+        },
+        {
+          "productId": 2,
+          "quantity": 5
+        }
+      ]
+    }
 
     before(() => {
-      response.status = sinon.stub()
-        .returns(response);
-      response.json = sinon.stub()
-        .returns();
-
-      sinon.stub(service, 'getAll')
-        .resolves([]);
+      sinon.stub(connection, 'execute')
+        .resolves([resultExecute])
     })
 
     after(() => {
-      service.getAll.restore();
-    });
+      connection.execute.restore();
+    })
 
-    it(`${item} => ${mscLayer} => status: 200`, async () => {
-      await controller.getAll(request, response);
+    it('retorna um array', async () => {
+      const result = await model.getAll();
+      expect(result).to.be.an('object');
+    })
 
-      expect(response.status.calledWith(200)).to.be.equal(true);
-    });
-
-    it(`${item} => ${mscLayer} => json: array`, async () => {
-      await controller.getAll(request, response);
-
-      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
-    });
-
+    it('o array não esta vazio', async () => {
+      const result = await model.getAll();
+      expect(result).to.be.not.empty;
+    })
 
   });
 
 })
 
 // Create
-describe(`${item} => ${mscLayer} => create`, () => {
+describe(`${item} => ${mscLayer} => createSales`, () => {
   describe("Negative Payload", async () => {
-    const response = {};
-    const request = {};
+    const payloadError =  [];
+    const payload =  [
+      {
+        "productId": 1,
+        "quantity": 2
+      },
+      {
+        "productId": 2,
+        "quantity": 5
+      }
+    ];
 
-    before(() => {
-      request.body = {};
-
-      response.status = sinon.stub().returns(response);
-      response.send = sinon.stub().returns();
-      response.json = sinon.stub().returns();
-
-      sinon.stub(service, "create").resolves(false);
+    before(async () => {
+      const execute = [{ insertId: 1 }];
+  
+      sinon.stub(connection, "execute").resolves(execute);
     });
 
-    after(() => {
-      service.create.restore();
+    after(async () => {
+      connection.execute.restore();
     });
 
     it(`${item} => ${mscLayer} => status: 400`, async () => {
-      await productsControllers.create(request, response);
+      const response = await model.createSales(payloadError);
 
-      expect(response.status.calledWith(400)).to.be.equal(true);
+      expect(response).to.be.a('number');
     });
 
-    it(`${item} => ${mscLayer} => "Dados inválidos"`, async () => {
-      await controller.create(request, response);
+  //   it(`${item} => ${mscLayer} => "Dados inválidos"`, async () => {
+  //     await model.createSales(payloadError);
 
-      expect(response.json.calledWith({message: "Dados inválidos"})).to.be.equal(true);
-    });
+  //     expect(response.json.calledWith({message: "Dados inválidos"})).to.be.equal(true);
+  //   });
   });
 
-  describe(`${item} => ${mscLayer} => success`, async () => {
-    const response = {};
-    const request = {};
+  // describe(`${item} => ${mscLayer} => success`, async () => {
+  //   const response = {};
+  //   const request = {};
 
-    before(() => {
-      request.body = {
-        "name": "martelo",
-        "quantity": 10
-      }	;
+  //   before(() => {
+  //     request.body = {
+  //       "name": "martelo",
+  //       "quantity": 10
+  //     }	;
 
-      response.status = sinon.stub().returns(response);
-      response.send = sinon.stub().returns();
-      response.json = sinon.stub().returns();
+  //     response.status = sinon.stub().returns(response);
+  //     response.send = sinon.stub().returns();
+  //     response.json = sinon.stub().returns();
 
-      sinon.stub(service, "create").resolves(true);
-    });
+  //     sinon.stub(service, "create").resolves(true);
+  //   });
 
-    after(() => {
-      service.create.restore();
-    });
+  //   after(() => {
+  //     service.createSales.restore();
+  //   });
 
-    it(`${item} => ${mscLayer} => status: 201`, async () => {
-      await controller.create(request, response);
+  //   it(`${item} => ${mscLayer} => status: 201`, async () => {
+  //     await controller.createSales(request, response);
 
-      expect(response.status.calledWith(201)).to.be.equal(true);
-    });
+  //     expect(response.status.calledWith(201)).to.be.equal(true);
+  //   });
 
-    it(`${item}  => ${mscLayer} => success!`, async () => {
-      await controller.create(request, response);
+  //   it(`${item}  => ${mscLayer} => success!`, async () => {
+  //     await controller.createSales(request, response);
 
-      expect(response.json.calledWith(true)).to.be.equal(
-        true
-      );
-    });
-  });
+  //     expect(response.json.calledWith(true)).to.be.equal(
+  //       true
+  //     );
+  //   });
+  // });
 });

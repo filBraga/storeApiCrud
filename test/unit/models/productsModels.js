@@ -6,68 +6,78 @@ const mscLayer = 'Model' //in single
 
 const service = require(`../../../services/${item}sServices`);
 const controller = require(`../../../controllers/${item}sControllers`);
+const model = require(`../../../models/${item}sModels`);
 
-const productsControllers = require(`../../../controllers/productsControllers`);
+const connection = require('../../../models/connection');
+
 
 // Get All
 describe(`${item} => ${mscLayer} => getAll`, () => {
   describe(`Negative ${item} in DB`, () => {
-    const response = {}
-    const request = {}
+    const resultExecute = [[]];
 
     before(() => {
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(service, 'getAll').resolves([]);
+      sinon.stub(connection, 'execute')
+        .resolves(resultExecute)
     })
 
     after(() => {
-      service.getAll.restore();
+      connection.execute.restore();
     })
 
-    it(`${item} => ${mscLayer} => status: 200`, async () => {
-      await controller.getAll(request, response)
-
-      expect(response.status.calledWith(200)).to.be.equal(true);
+    it(`${item} => ${mscLayer} => return arr`, async () => {
+      const result = await model.getAll();
+      expect(result).to.be.an('array');
     })
 
-    it(`${item} => ${mscLayer} => json: array`, async () => {
-      await controller.getAll(request, response)
-
-      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+    it(`${item} => ${mscLayer} => array: empty`, async () => {
+      const result = await model.getAll();
+      expect(result).to.be.empty;;
     })
   })
 
   describe(`Positive ${item} in DB`, async () => {
-    const response = {};
-    const request = {};
+    const resultExecute = [
+      {
+        "id": 1,
+        "name": "Martelo de Thor",
+        "quantity": 10
+      },
+      {
+        "id": 2,
+        "name": "Traje de encolhimento",
+        "quantity": 20
+      },
+      {
+        "id": 3,
+        "name": "Escudo do Capitão América",
+        "quantity": 30
+      }
+    ]
 
     before(() => {
-      response.status = sinon.stub()
-        .returns(response);
-      response.json = sinon.stub()
-        .returns();
-
-      sinon.stub(service, 'getAll')
-        .resolves([]);
+      sinon.stub(connection, 'execute')
+        .resolves([resultExecute])
     })
 
     after(() => {
-      service.getAll.restore();
-    });
+      connection.execute.restore();
+    })
 
-    it(`${item} => ${mscLayer} => status: 200`, async () => {
-      await controller.getAll(request, response);
+    it('retorna um array', async () => {
+      const result = await model.getAll();
+      expect(result).to.be.an('array');
+    })
 
-      expect(response.status.calledWith(200)).to.be.equal(true);
-    });
+    it('o array não esta vazio', async () => {
+      const result = await model.getAll();
+      expect(result).to.be.not.empty;
+    })
 
-    it(`${item} => ${mscLayer} => json: array`, async () => {
-      await controller.getAll(request, response);
-
-      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
-    });
+    it('o array possui objetos', async () => {
+      const [result] = await model.getAll();
+      expect(result).to.be.an('object');
+    })
 
 
   });
@@ -95,7 +105,7 @@ describe(`${item} => ${mscLayer} => create`, () => {
     });
 
     it(`${item} => ${mscLayer} => status: 400`, async () => {
-      await productsControllers.create(request, response);
+      await controller.create(request, response);
 
       expect(response.status.calledWith(400)).to.be.equal(true);
     });

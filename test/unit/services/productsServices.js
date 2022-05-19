@@ -6,140 +6,104 @@ const mscLayer = 'Service' //in single
 
 const service = require(`../../../services/${item}sServices`);
 const controller = require(`../../../controllers/${item}sControllers`);
+const model = require(`../../../models/${item}sModels`);
 
 const productsControllers = require(`../../../controllers/productsControllers`);
 
 // Get All
 describe(`${item} => ${mscLayer} => getAll`, () => {
   describe(`Negative ${item} in DB`, () => {
-    const response = {}
-    const request = {}
 
     before(() => {
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      sinon.stub(model, 'getAll')
+        .resolves([]);
+    });
 
-      sinon.stub(service, 'getAll').resolves([]);
-    })
 
     after(() => {
-      service.getAll.restore();
-    })
+      model.getAll.restore();
+    });
 
-    it(`${item} => ${mscLayer} => status: 200`, async () => {
-      await controller.getAll(request, response)
+    it('retorna um array', async () => {
+      const response = await service.getAll();
 
-      expect(response.status.calledWith(200)).to.be.equal(true);
-    })
+      expect(response).to.be.an('array');
+    });
 
-    it(`${item} => ${mscLayer} => json: array`, async () => {
-      await controller.getAll(request, response)
+    it('o array está vazio', async () => {
+      const response = await service.getAll();
 
-      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
-    })
+      expect(response).to.be.empty;
+    });
   })
 
-  describe(`Positive ${item} in DB`, async () => {
-    const response = {};
-    const request = {};
+  describe('quando existem products registrado no BD', () => {
 
     before(() => {
-      response.status = sinon.stub()
-        .returns(response);
-      response.json = sinon.stub()
-        .returns();
-
-      sinon.stub(service, 'getAll')
-        .resolves([]);
-    })
+      sinon.stub(model, 'getAll')
+        .resolves([
+          {
+            "id": 1,
+            "name": "Martelo de Thor",
+            "quantity": 10
+          },
+          {
+            "id": 2,
+            "name": "Traje de encolhimento",
+            "quantity": 20
+          },
+          {
+            "id": 3,
+            "name": "Escudo do Capitão América",
+            "quantity": 30
+          }
+        ]);
+    });
 
     after(() => {
-      service.getAll.restore();
-    });
-
-    it(`${item} => ${mscLayer} => status: 200`, async () => {
-      await controller.getAll(request, response);
-
-      expect(response.status.calledWith(200)).to.be.equal(true);
-    });
-
-    it(`${item} => ${mscLayer} => json: array`, async () => {
-      await controller.getAll(request, response);
-
-      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+      model.getAll.restore();
     });
 
 
-  });
+    it('retorna um array', async () => {
+      const response = await service.getAll();
 
+      expect(response).to.be.an('array');
+    });
+
+    it('o array não está vazio', async () => {
+      const response = await service.getAll();
+
+      expect(response).to.be.not.empty;
+    });
+
+    it('o array possui itens do tipo objeto', async () => {
+      const [item] = await service.getAll();
+
+      expect(item).to.be.an('object');
+    });
+  })
 })
 
-// Create
-describe(`${item} => ${mscLayer} => create`, () => {
-  describe("Negative Payload", async () => {
-    const response = {};
-    const request = {};
 
-    before(() => {
-      request.body = {};
+// Get Single
+describe(`${item} => ${mscLayer} => getSingle`, () => {
+  describe(`Negative ${item} in DB`, () => {
 
-      response.status = sinon.stub().returns(response);
-      response.send = sinon.stub().returns();
-      response.json = sinon.stub().returns();
+    // before(() => {
+    //   sinon.stub(model, 'getSingle')
+    //     .resolves([]);
+    // });
 
-      sinon.stub(service, "create").resolves(false);
+
+    // after(() => {
+    //   model.getSingle.restore();
+    // });
+
+    it('retorna um array', async () => {
+      const response = await service.getSingle(1);
+
+      expect(response).to.be.an('object');
     });
-
-    after(() => {
-      service.create.restore();
-    });
-
-    it(`${item} => ${mscLayer} => status: 400`, async () => {
-      await productsControllers.create(request, response);
-
-      expect(response.status.calledWith(400)).to.be.equal(true);
-    });
-
-    it(`${item} => ${mscLayer} => "Dados inválidos"`, async () => {
-      await controller.create(request, response);
-
-      expect(response.json.calledWith({message: "Dados inválidos"})).to.be.equal(true);
-    });
-  });
-
-  describe(`${item} => ${mscLayer} => success`, async () => {
-    const response = {};
-    const request = {};
-
-    before(() => {
-      request.body = {
-        "name": "martelo",
-        "quantity": 10
-      }	;
-
-      response.status = sinon.stub().returns(response);
-      response.send = sinon.stub().returns();
-      response.json = sinon.stub().returns();
-
-      sinon.stub(service, "create").resolves(true);
-    });
-
-    after(() => {
-      service.create.restore();
-    });
-
-    it(`${item} => ${mscLayer} => status: 201`, async () => {
-      await controller.create(request, response);
-
-      expect(response.status.calledWith(201)).to.be.equal(true);
-    });
-
-    it(`${item}  => ${mscLayer} => success!`, async () => {
-      await controller.create(request, response);
-
-      expect(response.json.calledWith(true)).to.be.equal(
-        true
-      );
-    });
-  });
-});
+  })
+})
