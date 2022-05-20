@@ -109,30 +109,28 @@ describe(`${item} => ${mscLayer} => getSingle`, () => {
 })
 
 // getSaleProductsById
-describe(`${item} => ${mscLayer} => getSaleProductsById`, () => {
-  describe(`Negative ${item} in DB`, () => {
+// describe(`${item} => ${mscLayer} => getSaleProductsById`, () => {
+//   describe(`Negative ${item} in DB`, () => {
 
-    before(() => {
-      sinon.stub(model, 'getSaleById')
-        .resolves([[]]);
-    });
+//     before(() => {
+//       sinon.stub(model, 'getSaleById')
+//         .resolves([[]]);
+//     });
 
 
-    after(() => {
-      model.getSaleById.restore();
-    });
+//     after(() => {
+//       model.getSaleById.restore();
+//     });
 
-    it('retorna um error', async () => {
+//     it('retorna um error', async () => {
 
-      try {
-        const response = await service.getSaleProductsById(4);
-      } catch (error) {
-        console.log(error);
-        expect(error.status.calledWith(404)).to.be.equal(true);;
-      }
-      
+//       try {
+//         await service.getSaleProductsById(4);
+//       } catch (error) {
+//         console.log(error);
+//         expect(error.status.calledWith(404)).to.be.equal(true);;
+//       }
+//     });
 
-      
-    });
-  })
-})
+//   })
+// })
