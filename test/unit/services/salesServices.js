@@ -90,43 +90,41 @@ describe(`${item} => ${mscLayer} => getAll`, () => {
 describe(`${item} => ${mscLayer} => getSingle`, () => {
   describe(`Negative ${item} in DB`, () => {
 
-    // before(() => {
-    //   sinon.stub(model, 'getSingle')
-    //     .resolves([]);
-    // });
+    before(() => {
+      sinon.stub(model, 'getSaleById')
+        .resolves([]);
+    });
 
 
-    // after(() => {
-    //   model.getSingle.restore();
-    // });
+    after(() => {
+      model.getSaleById.restore();
+    });
 
     it('retorna um array', async () => {
-      const response = await service.getSingle(1);
+      const response = await service.getSingle(4);
 
       expect(response).to.be.an('array');
     });
   })
 })
 
-//Create
-describe(`${item} => ${mscLayer} => create`, () => {
+describe(`${item} => ${mscLayer} => getSingle`, () => {
   describe(`Negative ${item} in DB`, () => {
 
-    const payload =   [
-      {
-        "productId": 1,
-        "quantity": 2
-      },
-      {
-        "productId": 2,
-        "quantity": 5
-      }
-    ]
+    before(() => {
+      sinon.stub(model, 'getSaleById')
+        .resolves([]);
+    });
+
+
+    after(() => {
+      model.getSaleProductsById.restore();
+    });
 
     it('retorna um array', async () => {
-      const response = await service.create(payload);
+      const response = await service.getSaleProductsById(4);
 
-      expect(response).to.be.a('object');
+      expect(response).to.be.an('array');
     });
   })
 })
