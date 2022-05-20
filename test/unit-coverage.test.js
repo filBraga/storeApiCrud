@@ -57,7 +57,6 @@ const executeTests = async () => {
       // Captura o log dos testes que falharam
       const failingTests = error.stdout.split('failing')[1].trim();
 
-      console.log(`${numberOfFailingTests} test(s) failed\n\n${failingTests}`);
 
       throw 'Algum dos seus testes falhou, esse requisito só será avaliado se todos os testes passarem';
     }
