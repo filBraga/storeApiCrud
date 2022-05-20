@@ -110,22 +110,28 @@ describe(`${item} => ${mscLayer} => getSingle`, () => {
 
 // getSaleProductsById
 describe(`${item} => ${mscLayer} => getSaleProductsById`, () => {
-  describe(`Positive ${item} in DB`, () => {
+  describe(`Negative ${item} in DB`, () => {
 
     before(() => {
-      sinon.stub(model, 'getSaleProductsById')
-        .resolves([]);
+      sinon.stub(model, 'getSaleById')
+        .resolves([[]]);
     });
 
 
     after(() => {
-      model.getSaleProductsById.restore();
+      model.getSaleById.restore();
     });
 
-    it('retorna uma string', async () => {
-      const response = await service.getSaleProductsById(1);
-      console.log(response);
-      expect(response).to.be.an('array');
+    it('retorna um error', async () => {
+
+      try {
+        const response = await service.getSaleProductsById(4);
+      } catch (error) {
+        expect(error.status.calledWith(404)).to.be.equal(true);;
+      }
+      
+
+      
     });
   })
 })
