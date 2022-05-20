@@ -87,23 +87,23 @@ describe(`${item} => ${mscLayer} => getAll`, () => {
 
 
 // Get Single
-describe(`${item} => ${mscLayer} => getSingle`, () => {
+describe(`${item} => ${mscLayer} => getProductById`, () => {
   describe(`Negative ${item} in DB`, () => {
 
-    // before(() => {
-    //   sinon.stub(model, 'getSingle')
-    //     .resolves([]);
-    // });
+    before(() => {
+      sinon.stub(model, 'getProductById')
+        .resolves([]);
+    });
 
 
-    // after(() => {
-    //   model.getSingle.restore();
-    // });
+    after(() => {
+      model.getProductById.restore();
+    });
 
     it('retorna um array', async () => {
-      const response = await service.getSingle(1);
+      const response = await service.getSingle(4);
 
-      expect(response).to.be.an('object');
+      expect(response).to.be.an('array');
     });
   })
 })
