@@ -127,6 +127,7 @@ describe(`${item} => ${mscLayer} => getSaleProductsById`, () => {
       try {
         const response = await service.getSaleProductsById(4);
       } catch (error) {
+        console.log(error);
         expect(error.status.calledWith(404)).to.be.equal(true);;
       }
       

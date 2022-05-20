@@ -7,9 +7,15 @@ const schema = Joi.object({
 
 const validateProduct = (req, res, next) => {
   const { error } = schema.validate(req.body);
-  console.log(error.details[0]);
-  if (error) return res.status(400).json({ message: error.message });
-  next();
+
+  if (!error) return next();
+  console.log(error.details[0].type);
+
+  if (error.details[0].type === 'any.required') {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  return res.status(422).json({ message: error.details[0].message });
 };
 
 module.exports = validateProduct;
